@@ -68,7 +68,8 @@ func TestFetchFeed(t *testing.T) {
 				URL:       ts.URL,
 			}
 
-			if _, err := FetchFeed(); tt.wantErr == nil && err != nil {
+			c := NewClient("test")
+			if _, err := c.FetchFeed(); tt.wantErr == nil && err != nil {
 				t.Fatalf("wantErr is %v, but actual is %v", tt.wantErr, err)
 			}
 		})

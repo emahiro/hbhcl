@@ -6,17 +6,30 @@ import (
 	"net/http"
 )
 
-const feedURL = "https://ema-hiro.hatenablog.com/feed"
+const feedURL = "https://%s.hatenablog.com/feed"
+
+// Client is hatena blog http Client per user.
+type Client struct {
+	hcl    *http.Client
+	UserID string
+}
+
+// NewClient creates Client instance.
+func NewClient(userID string) *Client {
+	return &Client{
+		hcl:    http.DefaultClient,
+		UserID: userID,
+	}
+}
 
 // FetchFeed fetches hatena blog feed.
-func FetchFeed() (*Feed, error) {
-	client := http.DefaultClient
-	req, err := http.NewRequest(http.MethodGet, feedURL, nil)
+func (c *Client) FetchFeed() (*Feed, error) {
+	req, err := http.NewRequest(http.MethodGet, fmt.Sprintf(feedURL, c.UserID), nil)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := client.Do(req)
+	resp, err := c.hcl.Do(req)
 	if err != nil {
 		return nil, err
 	}
