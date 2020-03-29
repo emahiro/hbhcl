@@ -1,3 +1,3 @@
-module github.com/emahiro/hbp
+module github.com/emahiro/hbhcl
 
 go 1.14
